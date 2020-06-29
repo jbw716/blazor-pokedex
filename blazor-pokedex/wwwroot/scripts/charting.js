@@ -22,7 +22,7 @@
 
             // Set chart options
             var options = {
-                'title': 'How Much Pizza I Ate Last Night',
+                'title': 'Temperature',
                 'width': 400,
                 'height': 300
             };

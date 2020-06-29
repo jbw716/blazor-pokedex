@@ -37,35 +37,25 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+    private List<WeatherForecast> forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        forecasts = await Http.GetFromJsonAsync<List<WeatherForecast>>("sample-data/weather.json");
 
-        await js.InvokeVoidAsync("log", forecasts.ToArray());
-
-        @*foreach(WeatherForecast forecast in forecasts)
-        {
-            await js.InvokeVoidAsync("log", forecast);
-        }*@
-
-        @*Chart chart = new Chart
+        Chart chart = new Chart
         {
             Type = "LineChart",
-            Data = new object[][]
-        {
-                new object[] {"Mushrooms", 3 },
-                new object[] {"Onions", 1 },
-                new object[] {"Olives", 1},
-                new object[] {"Zucchini", 1},
-                new object[] {"Pepperoni", 2}
-            },
-            ElementId = "my_cool_chart",
+            Data = new List<List<object>>(),
+            ElementId = "weather-chart",
             Axes = new string[][] { new string[] { "string", "Day" }, new string[] { "number", "Temperature" } }
         };
 
-        await JSRuntime.InvokeVoidAsync("chart.drawChart", chart);*@
+        chart.Data = forecasts.Select((forecast) => new List<object> { forecast.Date.ToString("M/d/yy"), forecast.TemperatureF }).ToList();
+
+        await js.InvokeVoidAsync("log", chart.Data);
+
+        await js.InvokeVoidAsync("chart.drawChart", chart);
     }
 
     public class WeatherForecast

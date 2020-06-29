@@ -7,29 +7,29 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-<div id="my_cool_chart"></div>
+@*<div id="my_cool_chart"></div>*@
 
 @code {
-    protected override async Task OnInitializedAsync()
+    @*protected override async Task OnInitializedAsync()
     {
 
         Chart chart = new Chart
         {
             Type = "ColumnChart",
-            Data = new object[][]
+            Data = new List<List<object>>
             {
-                new object[] {"Mushrooms", 3 },
-                new object[] {"Onions", 1 },
-                new object[] {"Olives", 1},
-                new object[] {"Zucchini", 1},
-                new object[] {"Pepperoni", 2}
+                new List<object> {"Mushrooms", 3 },
+                new List<object> {"Onions", 1 },
+                new List<object> {"Olives", 1},
+                new List<object> {"Zucchini", 1},
+                new List<object> {"Pepperoni", 2}
                 },
             ElementId = "my_cool_chart",
             Axes = new string[][] { new string[] { "string", "Type" }, new string[] { "number", "Count" } }
         };
 
         await JSRuntime.InvokeVoidAsync("chart.drawChart", chart);
-    }
+    }*@
 
     private int currentCount = 0;
 
