@@ -1,5 +1,6 @@
 @page "/fetchdata"
 @inject HttpClient Http
+@inject IJSRuntime js
 
 <h1>Weather forecast</h1>
 
@@ -11,6 +12,7 @@
 }
 else
 {
+    <div id="weather-chart"></div>
     <table class="table">
         <thead>
             <tr>
@@ -40,6 +42,30 @@ else
     protected override async Task OnInitializedAsync()
     {
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+
+        await js.InvokeVoidAsync("log", forecasts.ToArray());
+
+        @*foreach(WeatherForecast forecast in forecasts)
+        {
+            await js.InvokeVoidAsync("log", forecast);
+        }*@
+
+        @*Chart chart = new Chart
+        {
+            Type = "LineChart",
+            Data = new object[][]
+        {
+                new object[] {"Mushrooms", 3 },
+                new object[] {"Onions", 1 },
+                new object[] {"Olives", 1},
+                new object[] {"Zucchini", 1},
+                new object[] {"Pepperoni", 2}
+            },
+            ElementId = "my_cool_chart",
+            Axes = new string[][] { new string[] { "string", "Day" }, new string[] { "number", "Temperature" } }
+        };
+
+        await JSRuntime.InvokeVoidAsync("chart.drawChart", chart);*@
     }
 
     public class WeatherForecast
