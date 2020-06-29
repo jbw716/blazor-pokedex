@@ -15,11 +15,10 @@
             console.log("Drawing the chart");
             // Create the data table.
             var data = new google.visualization.DataTable();
-            data.addColumn(chartObject.Axes[1][0], chartObject.Axes[1][1]);
-            data.addColumn(chartObject.Axes[0][0], chartObject.Axes[0][1]);
-            chartData = chartObject.Data.map(val => Object.values(val));
-            console.log(chartData);
-            data.addRows(chartData);
+            data.addColumn(chartObject.axes[0][0], chartObject.axes[0][1]);
+            data.addColumn(chartObject.axes[1][0], chartObject.axes[1][1]);
+            console.log(chartObject.data);
+            data.addRows(chartObject.data);
 
             // Set chart options
             var options = {
@@ -29,15 +28,15 @@
             };
 
             // Instantiate and draw our chart, passing in some options.
-            switch (chartObject.Type.toLowerCase()) {
+            switch (chartObject.type.toLowerCase()) {
                 case "piechart":
-                    var chart = new google.visualization.PieChart(document.getElementById(chartObject.ElementId));
+                    var chart = new google.visualization.PieChart(document.getElementById(chartObject.elementId));
                     break;
                 case "columnchart":
-                    var chart = new google.visualization.ColumnChart(document.getElementById(chartObject.ElementId));
+                    var chart = new google.visualization.ColumnChart(document.getElementById(chartObject.elementId));
                     break;
                 case "linechart":
-                    var chart = new google.visualization.LineChart(document.getElementById(chartObject.ElementId));
+                    var chart = new google.visualization.LineChart(document.getElementById(chartObject.elementId));
                     break;
             }
             chart.draw(data, options);
