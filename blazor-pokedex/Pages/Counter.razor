@@ -1,0 +1,80 @@
+﻿@page "/counter"
+@inject IJSRuntime JSRuntime;
+@*@using Newtonsoft.Json;*@
+
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<div id="my_cool_chart"></div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        List<Tuple<string, int>> chartData = new List<Tuple<string, int>>();
+
+        chartData.Add(new Tuple<string, int>("Mushrooms", 3));
+        chartData.Add(new Tuple<string, int>("Onions", 1));
+        chartData.Add(new Tuple<string, int>("Olives", 1));
+        chartData.Add(new Tuple<string, int>("Zucchini", 1));
+        chartData.Add(new Tuple<string, int>("Pepperoni", 2));
+
+        //Console.WriteLine(chartData.ToArray());
+
+        //string[,] chartData =
+        //{
+        //    {
+        //        "Mushrooms", "3"
+        //    },
+        //    {
+        //        "Onions", "1"
+        //    },
+        //    {
+        //        "Olives", "1"
+        //    },
+        //    {
+        //        "Zucchini", "1"
+        //    },
+        //    {
+        //        "Pepperoin", "1"
+        //    }
+        //};
+
+        Chart chart = new Chart
+        {
+            Type = "PieChart",
+            Data = new object[][]
+            {
+                new object[] {"Mushrooms", 3 },
+                new object[] {"Onions", 1 },
+                new object[] {"Olives", 1},
+                new object[] {"Zucchini", 1},
+                new object[] {"Pepperoni", 2}
+                },
+            ElementId = "my_cool_chart",
+            Axes = new string[][] { new string[] { "string", "Type" }, new string[] { "number", "Count" } }
+        };
+
+        await JSRuntime.InvokeVoidAsync("chart.drawChart", chart);
+    }
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        JSRuntime.InvokeVoidAsync("consoleLog", "Current count: " + currentCount);
+
+    }
+
+    public class Chart
+    {
+        public string Type { get; set; }
+        public object[][] Data { get; set; }
+        public string ElementId { get; set; }
+        public string[][] Axes { get; set; }
+    }
+}
